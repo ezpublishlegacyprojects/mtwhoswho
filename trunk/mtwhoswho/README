@@ -1,0 +1,150 @@
+MTWhoswho by Maxime THOMAS
+--------------------------
+(c) Maxime THOMAS 2009
+For further information, please contact me at maxime.thomas@wascou.org
+
+
+Description
+-----------
+This extension allows you to identify people on a picture by tagging them.
+This extension has been fully tested on versions : 4.0.0
+
+Requirements
+------------
+1 - You need the ezcore extension. At this time, it needs the rev 59.
+http://projects.ez.no/ezcore
+Ensure that the index_adax.php has been copied to the eZRoot (either linked).
+
+2 - You need to enable javascript for your browser. If you are looking for a compliant 
+browser, download Mozilla Firefox.
+http://www.mozilla-europe.org/en/firefox/
+
+
+Warning
+-------
+Some adaptions have been made to match to the ezwebin standard design :
+- the content view ezimage datatype template has been overriden to call javascript.
+- the pagelayout has been overriden to use the ezcore extension.
+
+{ezscript( ezini( 'JavaScriptSettings', 'JavaScriptList', 'design.ini' ),
+false(), false(), ezini( 'eZCoreSettings', 'Level', 'mtwhoswho.ini' ) )}
+{ezscript(array('ez_core.js', 'ezcore::server'))}
+
+This extensions has NOT been tested on IE nor Safari nor Opera.  
+
+
+Installation
+------------
+1. Apache.
+
+	1.1 - Check that you have the following rewrite rules for eZCore :
+		#eZCore
+        RewriteRule ^[^/]+/ezcore/call/ /index_ajax.php [L]
+        RewriteRule ^[^/]+/ezcore/run/ /index_ajax.php [L]
+        RewriteRule ^/var/[^/]+/cache/public/.* - [L]
+
+	1.2. - Restart Apache.
+
+2. MySQL
+	2.1. - Run the "create.sql" script on your database.
+
+3. eZPublish.
+
+	3.1. - Unzip or untar the extension in the extension directory.
+	3.2. - Edit the "mtwhoswho/settings/mtwhoswho.ini.append.php" and set your own config.
+	3.3. - Save the config file.
+	3.4. - Go in the administration interface, in the "Setup" tab and click on the 
+	Extension link on the left. Check the mtwhoswho extension and click on "Apply changes".
+	3.5. - Click on "Regenerates autoload arrays for extension".
+	3.6. - On the "Clear cache" box on the right, select "All caches" and click on "Clear"
+	/*
+	3.7. - Affect new policies to role :
+		- "public" policy of the "mtwhoswho" module to "Anonymous".
+    	- "private" policy of the "mtwhoswho" module to the wanted role, "Editor" for 
+    	example.
+    */
+    3.8. - Check :
+    	- the role "Anonymous" can access to action "call" of module "ezcore" 
+    	- the role "Editor" can access to action "call" of module "ezcore"
+    3.9. - Edit your siteaccess and put mtwhoswho as your main design :
+    	[DesignSettings]
+		SiteDesign=mtwhoswho
+		AdditionalSiteDesignList[]
+		AdditionalSiteDesignList[]=ezwebin
+		AdditionalSiteDesignList[]=base
+    	
+
+How to use
+----------
+
+1. You are an "Editor".
+
+	1.1 - Go on the full view of a content with an image attribute. If you get the right to 
+	edit this content, an icon called "Identify people" appears. Click on it. 
+
+	1.2 - The previous icon disappears and two new icons appear. The first one is
+	"Save" and is used to save your modifications. The second one is "Cancel" and refreshes
+	the page without saving anything.
+
+	1.3 - Hover the picture and the cursor change to a small blue cross. It means that you
+	can click on the picture to tag someone. Click somewhere.
+
+	1.4 - A box appear with the list of people that you can identify. The list is either
+	on the left or on the right depending on the side of the picture you have clicked in.
+	The list is filled with all the available people minus all those that you have already
+	tagged.
+
+	1.5 - Select someone in the list. Once selected this person will be highlighted. If you
+	click on someone or else if you click again on this person, this person is deselected.
+
+	1.6 - At the bottom of the box, there are two buttons : "OK" and "Cancel". The first one
+	allows you to validate your choice and the other one to cancel it. If you cancel your
+	choice, your choice is cancelled and nobody is tagged. If you validate your
+	choice, the name of the person appears under the picture in a little blue box and
+	his/her name is removed from the choice list. 
+
+	1.7 - Hover the little blue box with the person you have chosen. The box appears to
+	show you who is the person you are pointing on.
+
+	1.8 - Click on the little blue box. The person is deselected and is added to choice
+	list.
+
+2. You are an "Anonymous".
+	
+	2.1 - Go on the full view of a content with an image attribute. The tagged people list 
+	is shown under the picture.
+	
+	2.2 - Hover the little blue box of a person. The related person is framed in the picture.
+
+
+Fine tuning
+-----------
+All the settings are in the mtwhoswho.ini.append.php.
+
+1 - 
+
+2 - eZCore
+As MTWhoswho is using eZCore, you can set the level of javascript compression for
+all the javacript files of your website. You can set this with the "Level" setting of the "eZCoreSettings" group.
+For more information, refer to the ezcore documentation in :
+ezcore/doc/ezscript.txt
+
+
+Copyright information
+---------------------
+Icons from this extension are extracted from common free open source projects :
+nuvola-1.0 :
+- identity.png
+
+tango-icon-theme-0.8.90
+- document-save-as.png which has been also declined to a black and white version.
+- process-stop.png
+- list-add.png which has been converted to list-add.cur
+
+
+Todo
+----
+1 - Select several people in a frame.
+2 - Filter persons by a text value in the box. 
+3 - Add the text data source
+4 - Multiple data source 
